@@ -5,6 +5,7 @@
 
 #pragma once
 #include "Game.h"
+#include <memory>
 
 // CChildView window
 

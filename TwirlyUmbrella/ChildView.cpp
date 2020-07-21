@@ -17,6 +17,8 @@
 
 CChildView::CChildView()
 {
+	
+
 }
 
 CChildView::~CChildView()
@@ -52,7 +54,13 @@ void CChildView::OnPaint()
 	//To reduce flickering
 	CDoubleBufferDC dc(&paintdc); // device context for painting
 	Gdiplus::Graphics graphics(dc.m_hDC);
-	mGame.OnDraw(&graphics);
+
+	//Get the size of the client to scale the graphics
+	CRect clientSize;
+
+	GetClientRect(&clientSize);
+
+	mGame.OnDraw(&graphics, clientSize.Width(), clientSize.Height());
 }
 
 

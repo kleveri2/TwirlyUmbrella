@@ -6,6 +6,7 @@ const std::wstring UmbrellaTest(L"images/Umbrellatest.png");
 
 CUmbrella::CUmbrella()
 {
+
 	mUmbrellaImage = std::unique_ptr<Gdiplus::Bitmap>(Gdiplus::Bitmap::FromFile(UmbrellaTest.c_str()));
 }
 
