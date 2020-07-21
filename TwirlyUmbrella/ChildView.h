@@ -4,7 +4,7 @@
 
 
 #pragma once
-
+#include "Game.h"
 
 // CChildView window
 
@@ -32,5 +32,11 @@ public:
 protected:
 	afx_msg void OnPaint();
 	DECLARE_MESSAGE_MAP()
+
+private:
+	//The class for the game being played
+	CGame mGame;
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 

@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "TwirlyUmbrella.h"
 #include "ChildView.h"
+#include "DoubleBufferDC.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,6 +26,7 @@ CChildView::~CChildView()
 
 BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_PAINT()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -46,10 +48,20 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CChildView::OnPaint() 
 {
-	CPaintDC dc(this); // device context for painting
-	
-	// TODO: Add your message handler code here
-	
-	// Do not call CWnd::OnPaint() for painting messages
+	CPaintDC paintdc(this); // device context for painting
+	//To reduce flickering
+	CDoubleBufferDC dc(&paintdc); // device context for painting
+	Gdiplus::Graphics graphics(dc.m_hDC);
+	mGame.OnDraw(&graphics);
 }
 
+
+/** Stops the background from being erased to reduce flickering issues
+* \param pDc The pdc object
+* \returns false always
+*/
+BOOL CChildView::OnEraseBkgnd(CDC* pDC)
+{
+
+	return false;
+}
