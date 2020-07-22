@@ -35,8 +35,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	//The class for the game being played
+	///The class for the game being played
 	CGame mGame;
+	/// An indicator for the first paint, for timing purposes
+	bool mFirstPaint = true;
+	///The last time the game was drawn
+	long long mPreviousDrawTime;
+	///Rate the timer is ticked
+	double mFrequency; 
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };

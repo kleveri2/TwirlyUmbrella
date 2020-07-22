@@ -4,14 +4,26 @@
 
 const std::wstring UmbrellaTest(L"images/Umbrellatest.png");
 
+using namespace Gdiplus;
+
+const double XStart = 500;
+const double YStart = 500;
+
+/** Constructor */
 CUmbrella::CUmbrella()
 {
-
-	mUmbrellaImage = std::unique_ptr<Gdiplus::Bitmap>(Gdiplus::Bitmap::FromFile(UmbrellaTest.c_str()));
+	mXPos = XStart;
+	mYPos = YStart;
+	mUmbrellaImage = std::unique_ptr<Bitmap>(Bitmap::FromFile(UmbrellaTest.c_str()));
 }
 
-void CUmbrella::Draw(Gdiplus::Graphics* graphics)
+/**
+* Draw the Umbrella
+* \param graphics The GDI graphics being drawn on
+*/
+void CUmbrella::Draw(Graphics* graphics)
 {
-    int x = 0;
-    graphics->DrawImage(mUmbrellaImage.get(),50,50, mUmbrellaImage->GetWidth(), mUmbrellaImage->GetHeight());
+    graphics->DrawImage(mUmbrellaImage.get(), static_cast<int>(mXPos),\
+		static_cast<int>(mYPos), mUmbrellaImage->GetWidth(),\
+		mUmbrellaImage->GetHeight());
 }

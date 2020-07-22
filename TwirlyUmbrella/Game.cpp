@@ -13,6 +13,12 @@ CGame::CGame()
 	mUmbrella = std::make_shared<CUmbrella>();
 }
 
+/**
+* Draw the game and its components
+* \param graphics the GDI graphics being drawn on
+* \param width The width of the window
+* \param height The height of the window
+*/
 void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 {
 	///Scales the window to any size
@@ -21,4 +27,8 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	graphics->ScaleTransform(mClientScaleX, mClientScaleY);
 
 	mUmbrella->Draw(graphics);
+}
+
+void CGame::Update(double elapsedTime) 
+{
 }

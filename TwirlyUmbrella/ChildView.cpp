@@ -12,6 +12,8 @@
 #define new DEBUG_NEW
 #endif
 
+// Redrawn every 60 miliseconds
+const int TimeBetweenFrames = 60;
 
 // CChildView
 
@@ -50,6 +52,32 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CChildView::OnPaint() 
 {
+	//The first time The program is painted, a timer is started
+	if (mFirstPaint == true)
+	{
+		SetTimer(1, TimeBetweenFrames, nullptr);
+		LARGE_INTEGER time;
+		LARGE_INTEGER frequency;
+
+		//Find the current ticks and the tick frequency
+		QueryPerformanceCounter(&time);
+		QueryPerformanceFrequency(&frequency);
+
+		//Set the first draw time, and the frequency
+		mPreviousDrawTime = time.QuadPart;
+		mFrequency = static_cast<double>(frequency.QuadPart);
+
+		mFirstPaint = false;
+	}
+	//Get the current tick
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+
+	//Elapsed time = (time - oldtime) / tickrate
+	double timeElapsed = static_cast<double>((time.QuadPart - mPreviousDrawTime) / mFrequency);
+
+	mGame.Update(timeElapsed);
+
 	CPaintDC paintdc(this); // device context for painting
 	//To reduce flickering
 	CDoubleBufferDC dc(&paintdc); // device context for painting

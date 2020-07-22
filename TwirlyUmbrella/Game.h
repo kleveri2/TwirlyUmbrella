@@ -17,6 +17,8 @@ public:
 
     void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height);
 
+    void Update(double elapsedTime);
+
 private:
     int mHeight; ///The width of the game
     int mWidth; ///The height of the game
