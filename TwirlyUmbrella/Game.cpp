@@ -29,6 +29,11 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	mUmbrella->Draw(graphics);
 }
 
+/**
+* Updates each part of the game (pipes, umbrella, etc.)
+* \param elapsedTime The time since the last update
+*/
 void CGame::Update(double elapsedTime) 
 {
+	mUmbrella->Update(elapsedTime);
 }

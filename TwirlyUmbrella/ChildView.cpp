@@ -19,7 +19,8 @@ const int TimeBetweenFrames = 60;
 
 CChildView::CChildView()
 {
-	
+	mPreviousDrawTime = 0;
+	mFrequency = 0;
 
 }
 
@@ -31,6 +32,7 @@ CChildView::~CChildView()
 BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_PAINT()
 	ON_WM_ERASEBKGND()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -100,4 +102,14 @@ BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 {
 
 	return false;
+}
+
+/** Redraws the game after a set amount of time
+*\param nIDEvent the timer ID
+*/
+void CChildView::OnTimer(UINT_PTR nIDEvent)
+{
+	Invalidate();
+
+	CWnd::OnTimer(nIDEvent);
 }

@@ -8,10 +8,16 @@ public:
 
     void Draw(Gdiplus::Graphics* graphics);
 
-private:
-    std::unique_ptr<Gdiplus::Bitmap> mUmbrellaImage;
+    void Update(double elapsedTime);
 
+private:
+    ///The image of the umbrella being used
+    std::unique_ptr<Gdiplus::Bitmap> mUmbrellaImage;
+    ///The X coordinate of the umbrella
     double mXPos;
+    ///The y boordinate of the umbrella
     double mYPos;
+
+    double mVelocity;
 };
 
