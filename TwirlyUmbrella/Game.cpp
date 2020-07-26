@@ -37,3 +37,10 @@ void CGame::Update(double elapsedTime)
 {
 	mUmbrella->Update(elapsedTime);
 }
+
+/** Jumps the umbrella
+*/
+void CGame::jump() 
+{
+	mUmbrella->SetVelocity(-50);
+}

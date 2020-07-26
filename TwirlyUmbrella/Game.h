@@ -19,6 +19,8 @@ public:
 
     void Update(double elapsedTime);
 
+    void jump();
+
 private:
     int mHeight; ///The width of the game
     int mWidth; ///The height of the game

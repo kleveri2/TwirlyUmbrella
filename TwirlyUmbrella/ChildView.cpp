@@ -33,6 +33,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_PAINT()
 	ON_WM_ERASEBKGND()
 	ON_WM_TIMER()
+//	ON_WM_XBUTTONDOWN()
+ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 
@@ -77,6 +79,7 @@ void CChildView::OnPaint()
 
 	//Elapsed time = (time - oldtime) / tickrate
 	double timeElapsed = static_cast<double>((time.QuadPart - mPreviousDrawTime) / mFrequency);
+	mPreviousDrawTime = time.QuadPart;
 
 	mGame.Update(timeElapsed);
 
@@ -100,16 +103,30 @@ void CChildView::OnPaint()
 */
 BOOL CChildView::OnEraseBkgnd(CDC* pDC)
 {
-
 	return false;
 }
 
-/** Redraws the game after a set amount of time
-*\param nIDEvent the timer ID
+/** When a button is pushed
+* \param nChar The button pushes
+* \param nRepCnt The number of times pushed
+* \param nFlags Additional flags
+*/
+void CChildView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (nChar == VK_SPACE) 
+	{
+		mGame.jump();
+	}
+
+	CWnd::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+/**
+* Redraw after a period of time
+* \param nIDEvent The timer event ID
 */
 void CChildView::OnTimer(UINT_PTR nIDEvent)
 {
-	Invalidate();
-
+	Invalidate(); //Redraws the game
 	CWnd::OnTimer(nIDEvent);
 }

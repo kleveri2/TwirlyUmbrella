@@ -10,7 +10,7 @@ using namespace Gdiplus;
 const double XStart = 500;
 const double YStart = 500;
 ///The gravity the umbrella must face
-const double Gravity = 9.81;
+const double Gravity = 100;
 
 /** Constructor */
 CUmbrella::CUmbrella()
@@ -37,3 +37,4 @@ void CUmbrella::Update(double elapsedTime)
 	mVelocity = mVelocity + (Gravity * elapsedTime);
 	mYPos = mYPos + mVelocity;
 }
+
