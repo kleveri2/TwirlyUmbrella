@@ -1,10 +1,24 @@
+/**
+ * \file Umbrella.h
+ *
+ * \author Griffin Klevering
+ */
+
 #pragma once
+#include "GameObject.h"
 #include <memory>
-class CUmbrella
+
+/** Class for the umbrella the users plays with
+*
+* Space jumps
+*/
+class CUmbrella : public CGameObject
 {
 public:
 
-    CUmbrella();
+    CUmbrella() = delete;
+
+    CUmbrella(double XStart, double YStart);
 
     void Draw(Gdiplus::Graphics* graphics);
 
@@ -13,16 +27,13 @@ public:
     /** Sets the falling velocity
     * \param newV The new velocity
     */
-    void SetVelocity(double newV) { mVelocity = newV; }
+    void SetVelocity(double newV) { mYVelocity = newV; }
 
 private:
+
     ///The image of the umbrella being used
     std::unique_ptr<Gdiplus::Bitmap> mUmbrellaImage;
-    ///The X coordinate of the umbrella
-    double mXPos;
-    ///The y boordinate of the umbrella
-    double mYPos;
     /// The Y velocity of the umbrella
-    double mVelocity;
+    double mYVelocity;
 };
 

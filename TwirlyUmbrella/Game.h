@@ -8,7 +8,9 @@
 #include <memory>
 #include "Umbrella.h"
 
-/** Class for the game being played */
+/** Class for the game being played
+* Contains obstacles and an umbrella
+*/
 class CGame
 {
 public:

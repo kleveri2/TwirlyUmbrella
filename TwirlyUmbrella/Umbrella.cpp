@@ -1,3 +1,9 @@
+/**
+ * \file Umbrella.cpp
+ *
+ * \author Griffin Klevering
+ */
+
 #include "pch.h"
 #include "Umbrella.h"
 #include <string>
@@ -6,19 +12,16 @@ const std::wstring UmbrellaTest(L"images/Umbrellatest.png");
 
 using namespace Gdiplus;
 
-///The starting locations for the X and the Y coordinates upon the game beginning
-const double XStart = 500;
-const double YStart = 500;
 ///The gravity the umbrella must face
 const double Gravity = 100;
 
 /** Constructor */
-CUmbrella::CUmbrella()
+CUmbrella::CUmbrella(double XStart, double YStart)
 {
-	mXPos = XStart;
-	mYPos = YStart;
+	SetXPos(XStart);
+	SetYPos(YStart);
 	mUmbrellaImage = std::unique_ptr<Bitmap>(Bitmap::FromFile(UmbrellaTest.c_str()));
-	mVelocity = 0;
+	mYVelocity = 0;
 }
 
 /**
@@ -27,14 +30,15 @@ CUmbrella::CUmbrella()
 */
 void CUmbrella::Draw(Graphics* graphics)
 {
-    graphics->DrawImage(mUmbrellaImage.get(), static_cast<int>(mXPos),\
-		static_cast<int>(mYPos), mUmbrellaImage->GetWidth(),\
+    graphics->DrawImage(mUmbrellaImage.get(), static_cast<int>(GetXPos()),\
+		static_cast<int>(GetYPos()), mUmbrellaImage->GetWidth(),\
 		mUmbrellaImage->GetHeight());
 }
 
 void CUmbrella::Update(double elapsedTime) 
 {
-	mVelocity = mVelocity + (Gravity * elapsedTime);
-	mYPos = mYPos + mVelocity;
+	mYVelocity = mYVelocity + (Gravity * elapsedTime);
+	double YPos = GetYPos();
+	 SetYPos(YPos + mYVelocity);
 }
 

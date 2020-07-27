@@ -1,3 +1,9 @@
+/**
+ * \file Game.cpp
+ *
+ * \author Griffin Klevering
+ */
+
 #include "pch.h"
 #include "Game.h"
 #include <memory>
@@ -5,12 +11,16 @@
 const float StandardHeight = 1024; ///The standard height of the client
 const float StandardWidth = 1820; ///The standard width of the client
 
+///The starting locations for the X and the Y coordinates upon the game beginning
+const double XStart = 500;
+const double YStart = 500;
+
 /** 
 * Constructor
 */
 CGame::CGame()
 {
-	mUmbrella = std::make_shared<CUmbrella>();
+	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart);
 }
 
 /**
