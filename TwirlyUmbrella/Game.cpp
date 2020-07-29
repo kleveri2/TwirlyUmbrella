@@ -22,6 +22,9 @@ const double YStart = 500;
 const int MaximumY = 800;
 const int MinimumY = 200;
 
+///The standard velocity of the obstacle
+const double ObstacleVelocity = 100;
+
 /** 
 * Constructor
 */
@@ -34,14 +37,9 @@ CGame::CGame()
 	std::random_device rd;
 	//Use it as a seed
 	std::mt19937 generator(rd());
-
-	//The distribution of high and low to get the Y
-	std::uniform_int_distribution<int> distribution(MinimumY, MaximumY);
-
-	int randomY = distribution(generator);
-
-	std::shared_ptr<CObstacle> obstacle = std::make_shared<CObstacle>(100, randomY, mUmbrella->GetHeight() * 1.5);
-	mObstacles.push_back(obstacle);
+	mGenerator = generator;
+	//Add an initial obstacle
+	AddObstacle();
 }
 
 /**
@@ -55,7 +53,7 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	///Scales the window to any size
 	mClientScaleY = height / StandardHeight;
 	mClientScaleX = width / StandardWidth;
-	graphics->ScaleTransform(mClientScaleY, mClientScaleY);
+	graphics->ScaleTransform(mClientScaleX, mClientScaleY);
 	for (auto obstacle : mObstacles) 
 	{
 		obstacle->Draw(graphics);
@@ -69,9 +67,21 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 */
 void CGame::Update(double elapsedTime) 
 {
-	if (mObstacleTime == 0) 
+	mObstacleTime += elapsedTime;
+	if ((mObstacleTime) > 4) 
 	{
-		
+		AddObstacle();
+		mObstacleTime = 0;
+	}
+	for (auto obstacle : mObstacles) 
+	{
+		obstacle->Update(elapsedTime);
+	}
+	//Only one obstacle will be off screen at a time, so we only need to worry about the first one
+	auto it = mObstacles.begin();
+	if ((*it)->GetXPos() + (*it)->GetWidth()  <= 0) 
+	{
+		mObstacles.erase(it);
 	}
 	mUmbrella->Update(elapsedTime);
 }
@@ -81,4 +91,15 @@ void CGame::Update(double elapsedTime)
 void CGame::jump() 
 {
 	mUmbrella->SetVelocity(-50);
+}
+
+/** Adds an obstacle with a random Y to the game
+*/
+void CGame::AddObstacle() 
+{
+	std::uniform_int_distribution<int> distribution(MinimumY, MaximumY);
+	int randomY = distribution(mGenerator);
+  	mObstacleTime = 0;
+	std::shared_ptr<CObstacle> obstacle = std::make_shared<CObstacle>(1850, randomY, mUmbrella->GetHeight() * 1.75, ObstacleVelocity);
+	mObstacles.push_back(obstacle);
 }

@@ -16,11 +16,17 @@ public:
 
     CObstacle() = delete;
 
-    CObstacle(int XStart, int YStart, int GapSize);
+    CObstacle(int XStart, int YStart, double GapSize, double XVelocity);
 
     void Draw(Gdiplus::Graphics* graphics);
 
-    void Update(double elapsedTime) {}
+    void Update(double elapsedTime);
+
+    /** Gets the width of the obstacle image
+    * \returns The width in pixels
+    * uses mTopImage, but both are the same width, so its arbitrary
+    */
+    double GetWidth() { return mTopImage->GetWidth(); }
 
 private:
     ///The top obstacle image
@@ -29,7 +35,9 @@ private:
     ///The bottom obstacle image
     std::unique_ptr<Gdiplus::Bitmap> mBottomImage;
 
-    int mGapSize; ///The size of the gap between two poles;
+    double mGapSize; ///The size of the gap between two poles;
+
+    double mXVelocity; ///The velocity of the obstacle going left
 
 };
 

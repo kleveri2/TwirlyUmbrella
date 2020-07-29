@@ -9,6 +9,7 @@
 #include "Umbrella.h"
 #include "Obstacle.h"
 #include <vector>
+#include <random>
 /** Class for the game being played
 * Contains obstacles and an umbrella
 */
@@ -24,6 +25,8 @@ public:
 
     void jump();
 
+    void AddObstacle();
+
 private:
     int mHeight; ///The width of the game
     int mWidth; ///The height of the game
@@ -38,5 +41,7 @@ private:
     double mObstacleTime; ///The last time an obstacle was made
 
     int mObstacleRange; ///The range of Y coordinates where the Y can be
+
+    std::mt19937 mGenerator; ///The generator for the random Obstacle Y coordinate
 };
 

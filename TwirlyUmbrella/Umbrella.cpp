@@ -34,15 +34,18 @@ void CUmbrella::Draw(Graphics* graphics)
 	double height = mUmbrellaImage->GetHeight();
 
 	// -width/2 because GDI places coordinates at the top left of an image instead of the middle
-    graphics->DrawImage(mUmbrellaImage.get(), static_cast<int>(GetXPos() - width/2),\
-		static_cast<int>(GetYPos() - height/2), mUmbrellaImage->GetWidth(),\
-		mUmbrellaImage->GetHeight());
+    graphics->DrawImage(mUmbrellaImage.get(), static_cast<float>(GetXPos() - width/2),\
+		static_cast<float>(GetYPos() - height/2), static_cast<float>(mUmbrellaImage->GetWidth()),\
+		static_cast<float>(mUmbrellaImage->GetHeight()));
 }
 
+/** Changes the umbrellas position
+* \param elapsedTime The time since the last update
+*/
 void CUmbrella::Update(double elapsedTime) 
 {
 	mYVelocity = mYVelocity + (Gravity * elapsedTime);
 	double YPos = GetYPos();
-	 SetYPos(YPos + mYVelocity);
+	SetYPos(YPos + mYVelocity);
 }
 

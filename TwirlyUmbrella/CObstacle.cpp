@@ -17,11 +17,11 @@ const std::wstring ObstacleTest(L"images/obstacletest.png");
 * \param YStart the starting Y location of the obstacle
 * \param GapSize the size of the gap between the top and bottom obstacles
 */
-CObstacle::CObstacle(int XStart, int YStart, int GapSize) 
+CObstacle::CObstacle(int XStart, int YStart, double GapSize, double XVelocity) 
 {
 	SetXPos(XStart);
 	SetYPos(YStart);
-
+	mXVelocity = XVelocity;
 	mGapSize = GapSize;
 
 	mTopImage = std::unique_ptr<Bitmap>(Bitmap::FromFile(ObstacleTest.c_str()));
@@ -36,12 +36,20 @@ void CObstacle::Draw(Graphics* graphics)
 	double width = mTopImage->GetWidth();
 	double height = mTopImage->GetHeight();
 
-	graphics->DrawImage(mTopImage.get(), static_cast<int>(GetXPos() - width/2), \
-		static_cast<int>(GetYPos() - mGapSize - height), mTopImage->GetWidth(), \
-		mTopImage->GetHeight());
+	graphics->DrawImage(mTopImage.get(), static_cast<float>(GetXPos() - width/2), \
+		static_cast<float>(GetYPos() - mGapSize - height), static_cast<float>(mTopImage->GetWidth()), \
+		static_cast<float>(mTopImage->GetHeight()));
 
 	//Ypos = ypos + gapsize - height/2 + height/2
-	graphics->DrawImage(mBottomImage.get(), static_cast<int>(GetXPos() - width/2), \
-		static_cast<int>(GetYPos() + mGapSize), mBottomImage->GetWidth(), \
-		mBottomImage->GetHeight());
+	graphics->DrawImage(mBottomImage.get(), static_cast<float>(GetXPos() - width/2), \
+		static_cast<float>(GetYPos() + mGapSize), static_cast<float>(mBottomImage->GetWidth()), \
+		static_cast<float>(mBottomImage->GetHeight()));
+}
+
+/** Changes the obstacle's position
+* \param elapsedTime The time since the last update
+*/
+void CObstacle::Update(double elapsedTime)
+{
+	SetXPos(GetXPos() - (mXVelocity * elapsedTime));
 }
