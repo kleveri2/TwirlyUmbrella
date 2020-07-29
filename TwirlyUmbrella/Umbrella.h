@@ -29,6 +29,11 @@ public:
     */
     void SetVelocity(double newV) { mYVelocity = newV; }
 
+    /** Gets the height of the umbrella
+    * \param return height of the umbrella image
+    */
+    int GetHeight() { return mUmbrellaImage->GetHeight(); }
+
 private:
 
     ///The image of the umbrella being used

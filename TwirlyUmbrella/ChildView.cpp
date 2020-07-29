@@ -7,7 +7,7 @@
 #include "TwirlyUmbrella.h"
 #include "ChildView.h"
 #include "DoubleBufferDC.h"
-
+#include <time.h>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -21,7 +21,6 @@ CChildView::CChildView()
 {
 	mPreviousDrawTime = 0;
 	mFrequency = 0;
-
 }
 
 CChildView::~CChildView()

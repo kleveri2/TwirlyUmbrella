@@ -30,8 +30,12 @@ CUmbrella::CUmbrella(double XStart, double YStart)
 */
 void CUmbrella::Draw(Graphics* graphics)
 {
-    graphics->DrawImage(mUmbrellaImage.get(), static_cast<int>(GetXPos()),\
-		static_cast<int>(GetYPos()), mUmbrellaImage->GetWidth(),\
+	double width = mUmbrellaImage->GetWidth();
+	double height = mUmbrellaImage->GetHeight();
+
+	// -width/2 because GDI places coordinates at the top left of an image instead of the middle
+    graphics->DrawImage(mUmbrellaImage.get(), static_cast<int>(GetXPos() - width/2),\
+		static_cast<int>(GetYPos() - height/2), mUmbrellaImage->GetWidth(),\
 		mUmbrellaImage->GetHeight());
 }
 

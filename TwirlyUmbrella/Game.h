@@ -7,7 +7,8 @@
 #pragma once
 #include <memory>
 #include "Umbrella.h"
-
+#include "Obstacle.h"
+#include <vector>
 /** Class for the game being played
 * Contains obstacles and an umbrella
 */
@@ -31,5 +32,11 @@ private:
     float mClientScaleY; ///The Y scale of the client window
 
     std::shared_ptr<CUmbrella> mUmbrella; ///The umbrella the user controls
+
+    std::vector<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge
+
+    double mObstacleTime; ///The last time an obstacle was made
+
+    int mObstacleRange; ///The range of Y coordinates where the Y can be
 };
 
