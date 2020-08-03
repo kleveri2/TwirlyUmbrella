@@ -28,6 +28,16 @@ public:
     */
     virtual void Update(double elapsedTime) = 0;
 
+    /** Gets the height of an image
+    * Pure virtual
+    */
+    virtual double GetHeight() = 0;
+
+    /** Gets the width of an image
+    * Pure virtual
+    */
+    virtual double GetWidth() = 0;
+
     /**Gets the X Position
     * \return The X Coordinate
     */
@@ -47,10 +57,12 @@ public:
     * \param The Y Coordinate
     */
     void SetYPos(double newP) { mYPos = newP; }
+
+
 private:
     ///The X coordinate of the object
     double mXPos = 0;
-    ///The y coordinate of the object
+    ///The Y coordinate of the object
     double mYPos = 0;
 };
 

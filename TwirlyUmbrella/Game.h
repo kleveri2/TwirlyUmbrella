@@ -27,6 +27,8 @@ public:
 
     void AddObstacle();
 
+    bool TestCollision();
+
 private:
     int mHeight; ///The width of the game
     int mWidth; ///The height of the game
@@ -37,6 +39,9 @@ private:
     std::shared_ptr<CUmbrella> mUmbrella; ///The umbrella the user controls
 
     std::vector<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge
+
+    ///Only the next obstacle needs to be checked for hitting, so this pointer holds that
+    std::shared_ptr<CObstacle> mNextObstacle; 
 
     double mObstacleTime; ///The last time an obstacle was made
 

@@ -10,7 +10,7 @@
 
 using namespace Gdiplus;
 
-const std::wstring ObstacleTest(L"images/obstacletest.png");
+const std::wstring ObstacleTest(L"images/Obstacletest2.png");
 
 /** Constructor
 * \param XStart The starting x location of the obstacle

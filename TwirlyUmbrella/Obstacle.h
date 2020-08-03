@@ -28,6 +28,12 @@ public:
     */
     double GetWidth() { return mTopImage->GetWidth(); }
 
+    /** Gets the height of the obstacle image
+    * \returns The height in pixels
+    * uses mTopImage, but both are the same height, so its arbitrary
+    */
+    double GetHeight() { return mTopImage->GetWidth(); }
+
 private:
     ///The top obstacle image
     std::unique_ptr<Gdiplus::Bitmap> mTopImage;

@@ -32,7 +32,12 @@ public:
     /** Gets the height of the umbrella
     * \param return height of the umbrella image
     */
-    int GetHeight() { return mUmbrellaImage->GetHeight(); }
+    double GetHeight() { return mUmbrellaImage->GetHeight(); }
+
+    /** Gets the height of the umbrella
+    * \param return the width of the umbrella image
+    */
+    double GetWidth() { return mUmbrellaImage->GetWidth(); }
 
 private:
 
