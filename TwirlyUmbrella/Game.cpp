@@ -54,15 +54,19 @@ CGame::CGame()
 void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 {
 	///Scales the window to any size
-	mClientScaleY = height / StandardHeight;
-	mClientScaleX = width / StandardWidth;
-	graphics->ScaleTransform(mClientScaleX, mClientScaleY);
+	float clientScaleY = height / StandardHeight;
+	float clientScaleX = width / StandardWidth;
+	graphics->ScaleTransform(clientScaleX, clientScaleY);
 	for (auto obstacle : mObstacles) 
 	{
 		obstacle->Draw(graphics);
 	}
 	mUmbrella->Draw(graphics);
-	mOverlay->Draw(graphics, mGameOver);
+	mOverlay->DrawScore(graphics);
+	if (mGameOver == true) 
+	{
+		mOverlay->DrawGameOver(graphics);
+	}
 }
 
 /**
@@ -75,7 +79,7 @@ void CGame::Update(double elapsedTime)
 	{
 		//Add an obstacle every x seconds
 		mObstacleTime += elapsedTime;
-		if ((mObstacleTime) > 4)
+		if ((mObstacleTime) > 3)
 		{
 			AddObstacle();
 			mObstacleTime = 0;
@@ -89,11 +93,12 @@ void CGame::Update(double elapsedTime)
 		auto it = mObstacles.begin();
 		if ((*it)->GetXPos() + (*it)->GetWidth() <= 0)
 		{
-			mObstacles.erase(it);
+			int x = 0;
+    		mObstacles.erase(it);
 		}
 		mGameOver = TestCollision();
 		//If it makes it through the next obstacle shifts
-		if (mUmbrella->GetXPos() > mNextObstacle->GetXPos())
+		if (mUmbrella->GetXPos() - (mUmbrella->GetWidth()/2) > mNextObstacle->GetXPos() + (mNextObstacle->GetWidth()/2))
 		{
 			mOverlay->Increment();
 			mNextObstacle = mObstacles[1];

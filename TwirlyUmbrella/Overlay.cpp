@@ -20,7 +20,7 @@ COverlay::COverlay()
 /** Draws the scoreboard
 * \param graphics  the GDI graphics being drawn on
 */
-void COverlay::Draw(Graphics* graphics, bool gameOver)
+void COverlay::DrawScore(Graphics* graphics)
 {
     /// Sets Font
     FontFamily fontFamily(L"Arial");
@@ -34,20 +34,23 @@ void COverlay::Draw(Graphics* graphics, bool gameOver)
     std::wstring highscore = L"High Score: " + std::to_wstring(mHighScore);
 
     graphics->DrawString(highscore.c_str(), -1, &font, PointF(1242, 65), &red);
+}
+void COverlay::DrawGameOver(Graphics* graphics)
+{
+    FontFamily fontFamily(L"Arial");
 
-    if (gameOver == true) 
+    Gdiplus::Font font(&fontFamily, 150);
+    SolidBrush red(Color(BYTE(2000), BYTE(40), BYTE(40)));
+    graphics->DrawString(L"GAME OVER", -1, &font, PointF(250, 512), &red);
+
+    SolidBrush green(Color(BYTE(40), BYTE(200), BYTE(40)));
+    if (mScore > mHighScore)
     {
-        Gdiplus::Font font2(&fontFamily, 150);
-        graphics->DrawString(L"GAME OVER", -1, &font2, PointF(250, 512), &red);
-        if (mScore > mHighScore)
-        {
-            Gdiplus::Font font3(&fontFamily, 100);
-            SolidBrush green(Color(BYTE(40), BYTE(200), BYTE(40)));
-            graphics->DrawString(L"New Record!", -1, &font3, PointF(480, 200), &green);
-        }
-        SolidBrush green(Color(BYTE(40), BYTE(200), BYTE(40)));
-        graphics->DrawString(L"Press ""SPACE"" to reset", -1, &font, PointF(480, 400), &green);
+        Gdiplus::Font font2(&fontFamily, 100);
+        graphics->DrawString(L"New Record!", -1, &font2, PointF(480, 200), &green);
     }
+    Gdiplus::Font font3(&fontFamily, 50);
+    graphics->DrawString(L"Press ""SPACE"" to reset", -1, &font3, PointF(550, 400), &green);
 }
 
 /** Increments the score by 1

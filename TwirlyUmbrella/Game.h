@@ -41,9 +41,6 @@ private:
 
     bool mGameOver; ///If the status of the game is game over
 
-    float mClientScaleX; ///The X scale of the client window
-    float mClientScaleY; ///The Y scale of the client window
-
     std::shared_ptr<CUmbrella> mUmbrella; ///The umbrella the user controls
 
     std::vector<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge

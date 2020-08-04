@@ -37,13 +37,13 @@ void CUmbrella::Draw(Graphics* graphics)
 	double width = mUmbrellaImage->GetWidth();
 	double height = mUmbrellaImage->GetHeight();
 	auto state = graphics->Save();
-		graphics->TranslateTransform(static_cast<float>(GetXPos()), static_cast<float>(GetYPos()));
-		graphics->RotateTransform((float)(mRotation));
+	graphics->TranslateTransform(static_cast<float>(GetXPos()), static_cast<float>(GetYPos()));
+	graphics->RotateTransform((float)(mRotation));
 
-		// -width/2 because GDI places coordinates at the top left of an image instead of the middle
-		graphics->DrawImage(mUmbrellaImage.get(), static_cast<float>(-width/2), \
-			static_cast<float>(-height/2), static_cast<float>(mUmbrellaImage->GetWidth()), \
-			static_cast<float>(mUmbrellaImage->GetHeight()));
+	// -width/2 because GDI places coordinates at the top left of an image instead of the middle
+	graphics->DrawImage(mUmbrellaImage.get(), static_cast<float>(-width/2), \
+		static_cast<float>(-height/2), static_cast<float>(mUmbrellaImage->GetWidth()), \
+		static_cast<float>(mUmbrellaImage->GetHeight()));
 
 	graphics->Restore(state);
 }

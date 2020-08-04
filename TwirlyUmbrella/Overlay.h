@@ -14,7 +14,8 @@ class COverlay
 {
 public:
     COverlay();
-    void Draw(Graphics* graphics, bool gameOver);
+    void DrawScore(Graphics* graphics);
+    void DrawGameOver(Graphics* graphics);
     void Increment();
     void ResetScore();
 private:
