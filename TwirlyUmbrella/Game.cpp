@@ -41,16 +41,8 @@ CGame::CGame()
 
 	mGameOver = false;
 
-	//Get a random number through random_device
-	std::random_device rd;
-	//Use it as a seed
-	std::mt19937 generator(rd());
-	mGenerator = generator;
-	//Add an initial obstacle
-	AddObstacle();
+	GameStart();
 
-	//The next obstacle to be hit is the first one
-	mNextObstacle = mObstacles[0];
 }
 
 /**
@@ -70,7 +62,7 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 		obstacle->Draw(graphics);
 	}
 	mUmbrella->Draw(graphics);
-	mOverlay->Draw(graphics);
+	mOverlay->Draw(graphics, mGameOver);
 }
 
 /**
@@ -99,7 +91,6 @@ void CGame::Update(double elapsedTime)
 		{
 			mObstacles.erase(it);
 		}
-		mUmbrella->Update(elapsedTime);
 		mGameOver = TestCollision();
 		//If it makes it through the next obstacle shifts
 		if (mUmbrella->GetXPos() > mNextObstacle->GetXPos())
@@ -112,6 +103,7 @@ void CGame::Update(double elapsedTime)
 	{
 		mUmbrella->Fall(elapsedTime);
 	}
+	mUmbrella->Update(elapsedTime);
 
 }
 
@@ -119,7 +111,48 @@ void CGame::Update(double elapsedTime)
 */
 void CGame::jump() 
 {
-	mUmbrella->SetVelocity(-50);
+	if (mGameOver)
+	{
+		Reset();
+	}
+	else
+	{
+		mUmbrella->SetVelocity(-50);
+	}
+}
+
+/** Resets the game from a game over
+*/
+void CGame::Reset() 
+{
+	//Put the umbrella back in the default position
+	mUmbrella->Reset(XStart, YStart);
+
+	//Reset the score
+	mOverlay->ResetScore();
+
+	//Destroy and recreate obstacles
+	mObstacleTime = 0;
+	mObstacles.clear();
+	GameStart();
+
+	mGameOver = false;
+}
+
+/** Starts the game after a game over or for the first time
+*/
+void CGame::GameStart() 
+{
+	//Get a random number through random_device
+	std::random_device rd;
+	//Use it as a seed
+	std::mt19937 generator(rd());
+	mGenerator = generator;
+	//Add an initial obstacle
+	AddObstacle();
+
+	//The next obstacle to be hit is the first one
+	mNextObstacle = mObstacles[0];
 }
 
 /** Adds an obstacle with a random Y to the game

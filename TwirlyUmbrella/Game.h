@@ -27,6 +27,10 @@ public:
 
     void jump();
 
+    void Reset();
+
+    void GameStart();
+
     void AddObstacle();
 
     bool TestCollision();

@@ -14,8 +14,9 @@ class COverlay
 {
 public:
     COverlay();
-    void Draw(Graphics* graphics);
+    void Draw(Graphics* graphics, bool gameOver);
     void Increment();
+    void ResetScore();
 private:
     int mScore; ///The current score of the game
     int mHighScore; ///The highest scored so far

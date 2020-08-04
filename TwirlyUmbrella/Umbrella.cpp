@@ -63,13 +63,21 @@ void CUmbrella::Update(double elapsedTime)
 */
 void CUmbrella::Fall(double elapsedTime)
 {
-	if (mYVelocity > 0) 
+	if (mYVelocity < 0) 
 	{
 		mYVelocity = 0;
 	}
 	mRotation = mRotation + elapsedTime * mRotationRate;
-	if (mRotation > 180) 
-	{
-		mRotation = 180;
-	}
+}
+
+/** Resets the umbrella from a game over
+* \param xStart The reset x starting coordinate
+* \param yStart The reset y starting coordinate
+*/
+void CUmbrella::Reset(double xStart, double yStart) 
+{
+	SetXPos(xStart);
+	SetYPos(yStart);
+	mYVelocity = 0;
+	mRotation = 0;
 }

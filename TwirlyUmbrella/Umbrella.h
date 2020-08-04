@@ -26,6 +26,8 @@ public:
 
     void Fall(double elapsedTime);
 
+    void Reset(double xStart, double yStart);
+
     /** Sets the falling velocity
     * \param newV The new velocity
     */
