@@ -18,11 +18,13 @@ public:
 
     CUmbrella() = delete;
 
-    CUmbrella(double XStart, double YStart);
+    CUmbrella(double XStart, double YStart, double RotationRate);
 
     void Draw(Gdiplus::Graphics* graphics);
 
     void Update(double elapsedTime);
+
+    void Fall(double elapsedTime);
 
     /** Sets the falling velocity
     * \param newV The new velocity
@@ -40,9 +42,12 @@ public:
     double GetWidth() { return mUmbrellaImage->GetWidth(); }
 
 private:
-
     ///The image of the umbrella being used
     std::unique_ptr<Gdiplus::Bitmap> mUmbrellaImage;
+    ///How far the umbrella has rotated during game over
+    double mRotation;
+    ///The rate inwhich it roates during game over
+    double mRotationRate; 
     /// The Y velocity of the umbrella
     double mYVelocity;
 };

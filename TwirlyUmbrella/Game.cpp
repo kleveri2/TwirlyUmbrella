@@ -15,18 +15,20 @@ const float StandardHeight = 1024; ///The standard height of the client
 const float StandardWidth = 1820; ///The standard width of the client
 
 ///The starting locations for the X and the Y coordinates upon the game beginning
-const double XStart = 500;
+const double XStart = 200;
 const double YStart = 500;
+///The rate the umbrella rotate in game over
+const double rrate = 200;
 
 ///The maximum and minimum locations of the center of the gap between the pillars
 const int MaximumY = 800;
 const int MinimumY = 200;
 
 ///The standard velocity of the obstacle
-const double ObstacleVelocity = 100;
+const double ObstacleVelocity = 200;
 
 ///The size of the gap between obstacles
-const double GapSize = 1.75;
+const double GapSize = 4;
 
 /** 
 * Constructor
@@ -34,7 +36,10 @@ const double GapSize = 1.75;
 CGame::CGame()
 {
 	mObstacleTime = 0;
-	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart);
+	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart, rrate);
+	mOverlay = std::make_shared<COverlay>();
+
+	mGameOver = false;
 
 	//Get a random number through random_device
 	std::random_device rd;
@@ -65,6 +70,7 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 		obstacle->Draw(graphics);
 	}
 	mUmbrella->Draw(graphics);
+	mOverlay->Draw(graphics);
 }
 
 /**
@@ -73,26 +79,40 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 */
 void CGame::Update(double elapsedTime) 
 {
-	//Add an obstacle every x seconds
-	mObstacleTime += elapsedTime;
-	if ((mObstacleTime) > 4) 
+	if (mGameOver == false)
 	{
-		AddObstacle();
-		mObstacleTime = 0;
+		//Add an obstacle every x seconds
+		mObstacleTime += elapsedTime;
+		if ((mObstacleTime) > 4)
+		{
+			AddObstacle();
+			mObstacleTime = 0;
+		}
+		//Update the position of each obstacle
+		for (auto obstacle : mObstacles)
+		{
+			obstacle->Update(elapsedTime);
+		}
+		//Only one obstacle will be off screen at a time, so we only need to worry about the first one
+		auto it = mObstacles.begin();
+		if ((*it)->GetXPos() + (*it)->GetWidth() <= 0)
+		{
+			mObstacles.erase(it);
+		}
+		mUmbrella->Update(elapsedTime);
+		mGameOver = TestCollision();
+		//If it makes it through the next obstacle shifts
+		if (mUmbrella->GetXPos() > mNextObstacle->GetXPos())
+		{
+			mOverlay->Increment();
+			mNextObstacle = mObstacles[1];
+		}
 	}
-	//Update the position of each obstacle
-	for (auto obstacle : mObstacles) 
+	else 
 	{
-		obstacle->Update(elapsedTime);
+		mUmbrella->Fall(elapsedTime);
 	}
-	//Only one obstacle will be off screen at a time, so we only need to worry about the first one
-	auto it = mObstacles.begin();
-	if ((*it)->GetXPos() + (*it)->GetWidth()  <= 0) 
-	{
-		mObstacles.erase(it);
-	}
-	mUmbrella->Update(elapsedTime);
-	TestCollision();
+
 }
 
 /** Jumps the umbrella
@@ -144,7 +164,7 @@ bool CGame::TestCollision()
 	//If the bottom obstacle is hit
 	if (umbrellaBot > downObstacleTop && umbrellaRight > downObstacleLeft && umbrellaLeft < downObstacleRight)
 	{
- 		return true;
+   		return true;
 	}
 	return false;
 }
