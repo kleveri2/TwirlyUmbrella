@@ -41,6 +41,8 @@ private:
 
     bool mGameOver; ///If the status of the game is game over
 
+    bool mGameStart; ///If the status of the game is before it starts for the first time
+
     std::shared_ptr<CUmbrella> mUmbrella; ///The umbrella the user controls
 
     std::vector<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge

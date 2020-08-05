@@ -16,6 +16,7 @@ public:
     COverlay();
     void DrawScore(Graphics* graphics);
     void DrawGameOver(Graphics* graphics);
+    void DrawGameStart(Graphics* graphics);
     void Increment();
     void ResetScore();
 private:

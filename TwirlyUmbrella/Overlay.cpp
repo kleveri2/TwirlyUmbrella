@@ -35,6 +35,10 @@ void COverlay::DrawScore(Graphics* graphics)
 
     graphics->DrawString(highscore.c_str(), -1, &font, PointF(1242, 65), &red);
 }
+
+/** Draw game over info
+* \param graphics  the GDI graphics being drawn on
+*/
 void COverlay::DrawGameOver(Graphics* graphics)
 {
     FontFamily fontFamily(L"Arial");
@@ -51,6 +55,18 @@ void COverlay::DrawGameOver(Graphics* graphics)
     }
     Gdiplus::Font font3(&fontFamily, 50);
     graphics->DrawString(L"Press ""SPACE"" to reset", -1, &font3, PointF(550, 400), &green);
+}
+
+/** Draw game start info
+* \param graphics  the GDI graphics being drawn on
+*/
+void COverlay::DrawGameStart(Graphics* graphics)
+{
+    FontFamily fontFamily(L"Arial");
+    Gdiplus::Font font(&fontFamily, 50);
+    SolidBrush green(Color(BYTE(40), BYTE(200), BYTE(40)));
+
+    graphics->DrawString(L"Press ""SPACE"" to begin!", -1, &font, PointF(550, 400), &green);
 }
 
 /** Increments the score by 1

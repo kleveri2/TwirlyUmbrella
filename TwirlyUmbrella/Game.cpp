@@ -41,8 +41,7 @@ CGame::CGame()
 
 	mGameOver = false;
 
-	GameStart();
-
+	mGameStart = true;
 }
 
 /**
@@ -67,6 +66,10 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	{
 		mOverlay->DrawGameOver(graphics);
 	}
+	if (mGameStart == true) 
+	{
+		mOverlay->DrawGameStart(graphics);
+	}
 }
 
 /**
@@ -75,7 +78,16 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 */
 void CGame::Update(double elapsedTime) 
 {
-	if (mGameOver == false)
+	if (mGameOver == true)
+	{
+		mUmbrella->Fall(elapsedTime);
+	}
+	else if (mGameStart == true) 
+	{
+		///umbrella do something here
+		
+	}
+	else
 	{
 		//Add an obstacle every x seconds
 		mObstacleTime += elapsedTime;
@@ -103,12 +115,9 @@ void CGame::Update(double elapsedTime)
 			mOverlay->Increment();
 			mNextObstacle = mObstacles[1];
 		}
+		mUmbrella->Update(elapsedTime);
 	}
-	else 
-	{
-		mUmbrella->Fall(elapsedTime);
-	}
-	mUmbrella->Update(elapsedTime);
+	
 
 }
 
@@ -116,11 +125,17 @@ void CGame::Update(double elapsedTime)
 */
 void CGame::jump() 
 {
-	if (mGameOver)
+	if (mGameOver == true)
 	{
 		Reset();
 	}
-	else
+	if (mGameStart == true) 
+	{
+		GameStart();
+		mGameStart = false;
+	}
+	//We want to start with a jump and jump whenever the game isn't over 
+	if (mGameOver == false)
 	{
 		mUmbrella->SetVelocity(-50);
 	}

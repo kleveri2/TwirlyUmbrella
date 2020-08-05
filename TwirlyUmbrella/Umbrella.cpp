@@ -68,6 +68,7 @@ void CUmbrella::Fall(double elapsedTime)
 		mYVelocity = 0;
 	}
 	mRotation = mRotation + elapsedTime * mRotationRate;
+	Update(elapsedTime);
 }
 
 /** Resets the umbrella from a game over
