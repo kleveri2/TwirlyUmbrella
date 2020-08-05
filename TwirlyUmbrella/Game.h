@@ -10,6 +10,7 @@
 #include "Obstacle.h"
 #include "Overlay.h"
 #include <vector>
+#include <deque>
 #include <random>
 
 /** Class for the game being played
@@ -45,7 +46,9 @@ private:
 
     std::shared_ptr<CUmbrella> mUmbrella; ///The umbrella the user controls
 
-    std::vector<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge
+    //I use a deque since it will frequently be removing from the front and adding to the end
+    //Whiel also randomly accessing
+    std::deque<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge
 
     std::shared_ptr<COverlay> mOverlay; ///The overlay that provides info about the game
 

@@ -102,11 +102,9 @@ void CGame::Update(double elapsedTime)
 			obstacle->Update(elapsedTime);
 		}
 		//Only one obstacle will be off screen at a time, so we only need to worry about the first one
-		auto it = mObstacles.begin();
-		if ((*it)->GetXPos() + (*it)->GetWidth() <= 0)
+		if (mObstacles.front()->GetXPos() + mObstacles.front()->GetWidth() <= 0)
 		{
-			int x = 0;
-    		mObstacles.erase(it);
+			mObstacles.pop_front();
 		}
 		mGameOver = TestCollision();
 		//If it makes it through the next obstacle shifts
@@ -172,7 +170,8 @@ void CGame::GameStart()
 	AddObstacle();
 
 	//The next obstacle to be hit is the first one
-	mNextObstacle = mObstacles[0];
+
+	mNextObstacle = mObstacles.front();
 }
 
 /** Adds an obstacle with a random Y to the game
