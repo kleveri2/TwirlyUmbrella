@@ -20,7 +20,7 @@ public:
     * Pure virtual
     * \param graphics The graphics being drawn upon
     */
-    virtual void Draw(Gdiplus::Graphics* graphics) = 0;
+    virtual void Draw(Gdiplus::Graphics* graphics) {}
 
     /** Update an object
     * Pure virtual

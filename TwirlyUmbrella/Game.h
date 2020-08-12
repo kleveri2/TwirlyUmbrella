@@ -9,10 +9,12 @@
 #include "Umbrella.h"
 #include "Obstacle.h"
 #include "Overlay.h"
+#include "Texture.h"
+#include "Background.h"
 #include <vector>
 #include <deque>
 #include <random>
-
+#include <map>
 /** Class for the game being played
 * Contains obstacles and an umbrella
 */
@@ -21,6 +23,8 @@ class CGame
 public:
 
     CGame();
+
+    void CreateTextureMap();
 
     void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height);
 
@@ -49,6 +53,10 @@ private:
     //I use a deque since it will frequently be removing from the front and adding to the end
     //Whiel also randomly accessing
     std::deque<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge
+
+    std::map<std::string, std::shared_ptr<CTexture>> mTextures;
+
+    std::shared_ptr<CBackground> mBackground;
 
     std::shared_ptr<COverlay> mOverlay; ///The overlay that provides info about the game
 

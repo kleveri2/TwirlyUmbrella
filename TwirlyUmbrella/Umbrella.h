@@ -6,6 +6,7 @@
 
 #pragma once
 #include "GameObject.h"
+#include "Texture.h"
 #include <memory>
 
 /** Class for the umbrella the users plays with
@@ -18,7 +19,7 @@ public:
 
     CUmbrella() = delete;
 
-    CUmbrella(double XStart, double YStart, double RotationRate);
+    CUmbrella(double XStart, double YStart, double RotationRate, std::shared_ptr<CTexture> texture);
 
     void Draw(Gdiplus::Graphics* graphics);
 
@@ -36,16 +37,16 @@ public:
     /** Gets the height of the umbrella
     * \param return height of the umbrella image
     */
-    double GetHeight() { return mUmbrellaImage->GetHeight(); }
+    double GetHeight() { return mTexture->GetHeight(); }
 
     /** Gets the height of the umbrella
     * \param return the width of the umbrella image
     */
-    double GetWidth() { return mUmbrellaImage->GetWidth(); }
+    double GetWidth() { return mTexture->GetWidth(); }
 
 private:
-    ///The image of the umbrella being used
-    std::unique_ptr<Gdiplus::Bitmap> mUmbrellaImage;
+    ///The top obstacle image
+    std::shared_ptr<CTexture> mTexture;
     ///How far the umbrella has rotated during game over
     double mRotation;
     ///The rate inwhich it roates during game over

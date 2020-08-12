@@ -6,6 +6,7 @@
 
 #pragma once
 #include "GameObject.h"
+#include "Texture.h"
 /** Class for the obstacles the umbrella will need to navigate
 *
 * Derived from CGameObject
@@ -16,7 +17,8 @@ public:
 
     CObstacle() = delete;
 
-    CObstacle(int XStart, int YStart, double GapSize, double XVelocity);
+
+    CObstacle(int XStart, int YStart, double GapSize, double XVelocity, std::shared_ptr<CTexture> texture);
 
     void Draw(Gdiplus::Graphics* graphics);
 
@@ -26,20 +28,17 @@ public:
     * \returns The width in pixels
     * uses mTopImage, but both are the same width, so its arbitrary
     */
-    double GetWidth() { return mTopImage->GetWidth(); }
+    double GetWidth() { return mTexture->GetWidth(); }
 
     /** Gets the height of the obstacle image
     * \returns The height in pixels
     * uses mTopImage, but both are the same height, so its arbitrary
     */
-    double GetHeight() { return mTopImage->GetWidth(); }
+    double GetHeight() { return mTexture->GetWidth(); }
 
 private:
-    ///The top obstacle image
-    std::unique_ptr<Gdiplus::Bitmap> mTopImage;
-
-    ///The bottom obstacle image
-    std::unique_ptr<Gdiplus::Bitmap> mBottomImage;
+    ///The texture
+    std::shared_ptr<CTexture> mTexture;
 
     double mGapSize; ///The size of the gap between two poles;
 

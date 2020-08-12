@@ -86,6 +86,7 @@ void CChildView::OnPaint()
 	//To reduce flickering
 	CDoubleBufferDC dc(&paintdc); // device context for painting
 	Gdiplus::Graphics graphics(dc.m_hDC);
+	
 
 	//Get the size of the client to scale the graphics
 	CRect clientSize;

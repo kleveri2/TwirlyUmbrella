@@ -25,10 +25,10 @@ const int MaximumY = 800;
 const int MinimumY = 200;
 
 ///The standard velocity of the obstacle
-const double ObstacleVelocity = 200;
+const double ObstacleVelocity = 250;
 
 ///The size of the gap between obstacles
-const double GapSize = 4;
+const double GapSize = 3 ;
 
 /** 
 * Constructor
@@ -36,12 +36,28 @@ const double GapSize = 4;
 CGame::CGame()
 {
 	mObstacleTime = 0;
-	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart, rrate);
+
+	CreateTextureMap();
+
+	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart, rrate, mTextures["Umbrella"]);
 	mOverlay = std::make_shared<COverlay>();
+
+	mBackground = std::make_shared<CBackground>(0 + mTextures["Background"]->GetWidth(),0 + StandardHeight,ObstacleVelocity, mTextures["Background"]);
+
 
 	mGameOver = false;
 
 	mGameStart = true;
+}
+
+
+/** Initializes the textures in the map*/
+void CGame::CreateTextureMap() 
+{
+	mTextures["Umbrella"] = std::make_shared<CTexture>(L"images/Umbrellatest.png");
+	mTextures["Obstacle"] = std::make_shared<CTexture>(L"images/Obstacletest2.png");
+	mTextures["Background"] = std::make_shared<CTexture>(L"images/background.png");
+
 }
 
 /**
@@ -56,10 +72,14 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	float clientScaleY = height / StandardHeight;
 	float clientScaleX = width / StandardWidth;
 	graphics->ScaleTransform(clientScaleX, clientScaleY);
+	mBackground->Draw(graphics, clientScaleX, clientScaleY);
 	for (auto obstacle : mObstacles) 
 	{
 		obstacle->Draw(graphics);
 	}
+
+	
+
 	mUmbrella->Draw(graphics);
 	mOverlay->DrawScore(graphics);
 	if (mGameOver == true) 
@@ -91,7 +111,7 @@ void CGame::Update(double elapsedTime)
 	{
 		//Add an obstacle every x seconds
 		mObstacleTime += elapsedTime;
-		if ((mObstacleTime) > 3)
+		if ((mObstacleTime) > 2)
 		{
 			AddObstacle();
 			mObstacleTime = 0;
@@ -181,7 +201,7 @@ void CGame::AddObstacle()
 	std::uniform_int_distribution<int> distribution(MinimumY, MaximumY);
 	int randomY = distribution(mGenerator);
   	mObstacleTime = 0;
-	std::shared_ptr<CObstacle> obstacle = std::make_shared<CObstacle>(1850, randomY, mUmbrella->GetHeight() * GapSize, ObstacleVelocity);
+	std::shared_ptr<CObstacle> obstacle = std::make_shared<CObstacle>(1850, randomY, mUmbrella->GetHeight() * GapSize, ObstacleVelocity, mTextures["Obstacle"]);
 	mObstacles.push_back(obstacle);
 }
 

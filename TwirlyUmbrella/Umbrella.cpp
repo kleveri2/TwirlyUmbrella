@@ -8,7 +8,6 @@
 #include "Umbrella.h"
 #include <string>
 
-const std::wstring UmbrellaTest(L"images/Umbrellatest.png");
 
 using namespace Gdiplus;
 
@@ -16,14 +15,14 @@ using namespace Gdiplus;
 const double Gravity = 100;
 
 /** Constructor */
-CUmbrella::CUmbrella(double XStart, double YStart, double RotationRate)
+CUmbrella::CUmbrella(double XStart, double YStart, double RotationRate, std::shared_ptr<CTexture> texture)
 {
 	SetXPos(XStart);
 	SetYPos(YStart);
 
 
 	mRotationRate = RotationRate;
-	mUmbrellaImage = std::unique_ptr<Bitmap>(Bitmap::FromFile(UmbrellaTest.c_str()));
+	mTexture = texture;
 	mRotation = 0;
 	mYVelocity = 0;
 }
@@ -34,16 +33,12 @@ CUmbrella::CUmbrella(double XStart, double YStart, double RotationRate)
 */
 void CUmbrella::Draw(Graphics* graphics)
 {
-	double width = mUmbrellaImage->GetWidth();
-	double height = mUmbrellaImage->GetHeight();
 	auto state = graphics->Save();
 	graphics->TranslateTransform(static_cast<float>(GetXPos()), static_cast<float>(GetYPos()));
 	graphics->RotateTransform((float)(mRotation));
 
 	// -width/2 because GDI places coordinates at the top left of an image instead of the middle
-	graphics->DrawImage(mUmbrellaImage.get(), static_cast<float>(-width/2), \
-		static_cast<float>(-height/2), static_cast<float>(mUmbrellaImage->GetWidth()), \
-		static_cast<float>(mUmbrellaImage->GetHeight()));
+	mTexture->DrawTexture(graphics, -mTexture->GetWidth() / 2, -mTexture->GetHeight() / 2);
 
 	graphics->Restore(state);
 }
