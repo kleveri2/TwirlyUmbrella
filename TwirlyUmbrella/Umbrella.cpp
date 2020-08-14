@@ -15,14 +15,16 @@ using namespace Gdiplus;
 const double Gravity = 100;
 
 /** Constructor */
-CUmbrella::CUmbrella(double XStart, double YStart, double RotationRate, std::shared_ptr<CTexture> texture)
+CUmbrella::CUmbrella(double XStart, double YStart, double RotationRate)
 {
 	SetXPos(XStart);
 	SetYPos(YStart);
 
+	mTextureNum = 0;
+
+	mLastChange  = 0;
 
 	mRotationRate = RotationRate;
-	mTexture = texture;
 	mRotation = 0;
 	mYVelocity = 0;
 }
@@ -38,7 +40,7 @@ void CUmbrella::Draw(Graphics* graphics)
 	graphics->RotateTransform((float)(mRotation));
 
 	// -width/2 because GDI places coordinates at the top left of an image instead of the middle
-	mTexture->DrawTexture(graphics, -mTexture->GetWidth() / 2, -mTexture->GetHeight() / 2);
+	mTextures[mTextureNum]->DrawTexture(graphics, -mTextures[mTextureNum]->GetWidth() / 2, -mTextures[mTextureNum]->GetHeight() / 2);
 
 	graphics->Restore(state);
 }
@@ -50,7 +52,19 @@ void CUmbrella::Update(double elapsedTime)
 {
 	mYVelocity = mYVelocity + (Gravity * elapsedTime);
 	double YPos = GetYPos();
+
 	SetYPos(YPos + mYVelocity);
+
+	if (mYVelocity < 0)
+	{
+		mTextureNum++;
+		if (mTextureNum >= mTextures.size()) 
+		{
+			mTextureNum = 0;
+		}
+		
+	}
+	mLastChange = GetYPos();
 }
 
 /** The umbrella falls after a game over
@@ -76,4 +90,12 @@ void CUmbrella::Reset(double xStart, double yStart)
 	SetYPos(yStart);
 	mYVelocity = 0;
 	mRotation = 0;
+}
+
+/** Adds a new texture to the umbrella's texture cycle
+* \param tex The new texture being added
+*/
+void CUmbrella::AddTexture(std::shared_ptr<CTexture> tex) 
+{
+	mTextures.push_back(tex);
 }

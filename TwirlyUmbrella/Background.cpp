@@ -12,22 +12,20 @@ CBackground::CBackground(int XStart, int YStart, double XVelocity, std::shared_p
 	SetXPos(XStart);
 	SetYPos(YStart);
 	mXVelocity = XVelocity;
-	mScaleX = 0;
-	mScaleY = 0;
 	mTexture = texture;
 }
 
 /** Draws the background
 * \param graphics  the GDI graphics being drawn on
 */
-void CBackground::Draw(Graphics* graphics, float clientScaleX, float clientScaleY)
+void CBackground::Draw(Graphics* graphics)
 {
 	auto state = graphics->Save();
 	//this makes it not lag horribly
-	graphics->SetCompositingMode(CompositingModeSourceCopy);
+	//graphics->SetCompositingMode(CompositingModeSourceCopy);
 	graphics->SetInterpolationMode(InterpolationModeNearestNeighbor);
-		mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth(), \
-			GetYPos() - mTexture->GetHeight());
+		mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, \
+			GetYPos() - mTexture->GetHeight()/2);
 	graphics->Restore(state);
 }
 
@@ -36,5 +34,5 @@ void CBackground::Draw(Graphics* graphics, float clientScaleX, float clientScale
 */
 void CBackground::Update(double elapsedTime)
 {
-	SetXPos(GetXPos() + mXVelocity);
+	
 }

@@ -11,6 +11,7 @@
 #include "Overlay.h"
 #include "Texture.h"
 #include "Background.h"
+#include "Floor.h"
 #include <vector>
 #include <deque>
 #include <random>
@@ -56,7 +57,9 @@ private:
 
     std::map<std::string, std::shared_ptr<CTexture>> mTextures;
 
-    std::shared_ptr<CBackground> mBackground;
+    std::shared_ptr<CBackground> mBackground; ///The background of the game
+
+    std::shared_ptr<CFloor> mFloor; ///The floor of the game
 
     std::shared_ptr<COverlay> mOverlay; ///The overlay that provides info about the game
 

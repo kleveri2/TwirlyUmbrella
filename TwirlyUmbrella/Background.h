@@ -18,7 +18,7 @@ public:
 
 	CBackground() = delete;
 	CBackground(int XStart, int YStart, double XVelocity, std::shared_ptr<CTexture> texture);
-	void Draw(Graphics* graphics, float clientScaleX, float clientScaleY);
+	void Draw(Graphics* graphics);
 	void Update(double elapsedTime);
 
 
@@ -35,8 +35,7 @@ public:
 private:
 	///The top obstacle image
 	std::shared_ptr<CTexture> mTexture;
-	float mScaleX;
-	float mScaleY;
+
 
 	int mXVelocity; ///The background scrolls at a velocity
 

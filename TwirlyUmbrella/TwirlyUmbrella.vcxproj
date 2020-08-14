@@ -186,6 +186,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="DoubleBufferDC.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="Obstacle.cpp" />

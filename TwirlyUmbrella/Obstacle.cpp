@@ -31,12 +31,12 @@ CObstacle::CObstacle(int XStart, int YStart, double GapSize, double XVelocity, s
 */
 void CObstacle::Draw(Graphics* graphics)
 {
-	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth(), \
+	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, \
 		GetYPos() - mGapSize - mTexture->GetHeight());
 	
 
 	//Ypos = ypos + gapsize - height/2 + height/2
-	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth(), GetYPos() + mGapSize);
+	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, GetYPos() + mGapSize);
 
 }
 

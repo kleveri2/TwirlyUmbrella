@@ -39,10 +39,15 @@ CGame::CGame()
 
 	CreateTextureMap();
 
-	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart, rrate, mTextures["Umbrella"]);
+	mUmbrella = std::make_shared<CUmbrella>(XStart, YStart, rrate);
+	mUmbrella->AddTexture(mTextures["Umbrella1"]);
+	mUmbrella->AddTexture(mTextures["Umbrella2"]);
+	mUmbrella->AddTexture(mTextures["Umbrella3"]);
+	mUmbrella->AddTexture(mTextures["Umbrella4"]);
 	mOverlay = std::make_shared<COverlay>();
 
-	mBackground = std::make_shared<CBackground>(0 + mTextures["Background"]->GetWidth(),0 + StandardHeight,ObstacleVelocity, mTextures["Background"]);
+	mBackground = std::make_shared<CBackground>(0 + mTextures["Background"]->GetWidth()/2,0 + StandardHeight/2,ObstacleVelocity, mTextures["Background"]);
+	//mFloor = std::make_shared<CFloor>(0 + mTextures["Floor"]->GetWidth() / 2, 0 + StandardHeight, ObstacleVelocity, mTextures["Floor"]);
 
 
 	mGameOver = false;
@@ -54,9 +59,13 @@ CGame::CGame()
 /** Initializes the textures in the map*/
 void CGame::CreateTextureMap() 
 {
-	mTextures["Umbrella"] = std::make_shared<CTexture>(L"images/Umbrellatest.png");
+	mTextures["Umbrella1"] = std::make_shared<CTexture>(L"images/umbrella1.png");
+	mTextures["Umbrella2"] = std::make_shared<CTexture>(L"images/umbrella2.png");
+	mTextures["Umbrella3"] = std::make_shared<CTexture>(L"images/umbrella3.png");
+	mTextures["Umbrella4"] = std::make_shared<CTexture>(L"images/umbrella4.png");
 	mTextures["Obstacle"] = std::make_shared<CTexture>(L"images/Obstacletest2.png");
 	mTextures["Background"] = std::make_shared<CTexture>(L"images/background.png");
+	mTextures["Floor"] = std::make_shared<CTexture>(L"images/tree3.png");
 
 }
 
@@ -72,7 +81,8 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	float clientScaleY = height / StandardHeight;
 	float clientScaleX = width / StandardWidth;
 	graphics->ScaleTransform(clientScaleX, clientScaleY);
-	mBackground->Draw(graphics, clientScaleX, clientScaleY);
+	mBackground->Draw(graphics);
+	//mFloor->Draw(graphics);
 	for (auto obstacle : mObstacles) 
 	{
 		obstacle->Draw(graphics);
@@ -109,6 +119,7 @@ void CGame::Update(double elapsedTime)
 	}
 	else
 	{
+		mBackground->Update(elapsedTime);
 		//Add an obstacle every x seconds
 		mObstacleTime += elapsedTime;
 		if ((mObstacleTime) > 2)
