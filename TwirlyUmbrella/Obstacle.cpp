@@ -33,7 +33,6 @@ void CObstacle::Draw(Graphics* graphics)
 {
 	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, \
 		GetYPos() - mGapSize - mTexture->GetHeight());
-	
 
 	//Ypos = ypos + gapsize - height/2 + height/2
 	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, GetYPos() + mGapSize);

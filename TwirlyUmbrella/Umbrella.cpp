@@ -76,7 +76,7 @@ void CUmbrella::Fall(double elapsedTime)
 	{
 		mYVelocity = 0;
 	}
-	mRotation = mRotation + elapsedTime * mRotationRate;
+	mRotation = mRotation - elapsedTime * mRotationRate;
 	Update(elapsedTime);
 }
 

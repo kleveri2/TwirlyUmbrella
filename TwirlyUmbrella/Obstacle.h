@@ -34,7 +34,7 @@ public:
     * \returns The height in pixels
     * uses mTopImage, but both are the same height, so its arbitrary
     */
-    double GetHeight() { return mTexture->GetWidth(); }
+    double GetHeight() { return mTexture->GetHeight(); }
 
 private:
     ///The texture

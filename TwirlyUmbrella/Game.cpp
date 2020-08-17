@@ -63,7 +63,7 @@ void CGame::CreateTextureMap()
 	mTextures["Umbrella2"] = std::make_shared<CTexture>(L"images/umbrella2.png");
 	mTextures["Umbrella3"] = std::make_shared<CTexture>(L"images/umbrella3.png");
 	mTextures["Umbrella4"] = std::make_shared<CTexture>(L"images/umbrella4.png");
-	mTextures["Obstacle"] = std::make_shared<CTexture>(L"images/Obstacletest2.png");
+	mTextures["Obstacle"] = std::make_shared<CTexture>(L"images/obstacle1.png");
 	mTextures["Background"] = std::make_shared<CTexture>(L"images/background.png");
 	mTextures["Floor"] = std::make_shared<CTexture>(L"images/tree3.png");
 
@@ -119,6 +119,7 @@ void CGame::Update(double elapsedTime)
 	}
 	else
 	{
+		mGameOver = TestCollision();
 		mBackground->Update(elapsedTime);
 		//Add an obstacle every x seconds
 		mObstacleTime += elapsedTime;
@@ -137,7 +138,7 @@ void CGame::Update(double elapsedTime)
 		{
 			mObstacles.pop_front();
 		}
-		mGameOver = TestCollision();
+		
 		//If it makes it through the next obstacle shifts
 		if (mUmbrella->GetXPos() - (mUmbrella->GetWidth()/2) > mNextObstacle->GetXPos() + (mNextObstacle->GetWidth()/2))
 		{
@@ -228,26 +229,24 @@ bool CGame::TestCollision()
 	double umbrellaRight = mUmbrella->GetXPos() + (mUmbrella->GetWidth()) / 2;
 
 	//The top obstacle hit box
-	double upObstacleTop = mNextObstacle->GetYPos() - (mUmbrella->GetHeight() / 2) - (GapSize * mUmbrella->GetHeight());
-	double upObstacleBot = mNextObstacle->GetYPos() + (mUmbrella->GetHeight() / 2) - (GapSize * mUmbrella->GetHeight());
+	double upObstacleBot = mNextObstacle->GetYPos() - (GapSize * mUmbrella->GetHeight());
 	double upObstacleLeft = mNextObstacle->GetXPos() - (mNextObstacle->GetWidth()/2);
 	double upObstacleRight = mNextObstacle->GetXPos() + (mNextObstacle->GetWidth() / 2);
 
 	//The bottom obstacle hit box
-	double downObstacleTop = mNextObstacle->GetYPos() - (mUmbrella->GetHeight() / 2) + (GapSize * mUmbrella->GetHeight());
-	double downObstacleBot = mNextObstacle->GetYPos() + (mUmbrella->GetHeight() / 2) + (GapSize * mUmbrella->GetHeight());
+	double downObstacleTop = mNextObstacle->GetYPos() + (GapSize * mUmbrella->GetHeight());
 	double downObstacleLeft = mNextObstacle->GetXPos() - (mNextObstacle->GetWidth() / 2);
 	double downObstacleRight = mNextObstacle->GetXPos() + (mNextObstacle->GetWidth() / 2);
 
 	//If the top obstacle is hit
-	if (umbrellaTop < upObstacleBot && umbrellaRight > upObstacleLeft&& umbrellaLeft < upObstacleRight) 
+	if (umbrellaTop < upObstacleBot && umbrellaRight > upObstacleLeft && umbrellaLeft < upObstacleRight) 
 	{
-		return true;
+ 		return true;
 	}
 	//If the bottom obstacle is hit
 	if (umbrellaBot > downObstacleTop && umbrellaRight > downObstacleLeft && umbrellaLeft < downObstacleRight)
 	{
-   		return true;
+    		return true;
 	}
 	return false;
 }
