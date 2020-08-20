@@ -53,7 +53,10 @@ void CUmbrella::Update(double elapsedTime)
 	mYVelocity = mYVelocity + (Gravity * elapsedTime);
 	double YPos = GetYPos();
 
-	SetYPos(YPos + mYVelocity);
+	if (GetYPos() < 2000)
+	{
+		SetYPos(YPos + mYVelocity);
+	}
 
 	if (mYVelocity < 0)
 	{
@@ -67,6 +70,7 @@ void CUmbrella::Update(double elapsedTime)
 	mLastChange = GetYPos();
 }
 
+
 /** The umbrella falls after a game over
 * \param elapsedTime The time since the last update
 */
@@ -74,7 +78,7 @@ void CUmbrella::Fall(double elapsedTime)
 {
 	if (mYVelocity < 0) 
 	{
-		mYVelocity = 0;
+		//mYVelocity = 0;
 	}
 	mRotation = mRotation - elapsedTime * mRotationRate;
 	Update(elapsedTime);

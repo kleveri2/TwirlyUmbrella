@@ -21,14 +21,14 @@ const double YStart = 500;
 const double rrate = 200;
 
 ///The maximum and minimum locations of the center of the gap between the pillars
-const int MaximumY = 800;
+const int MaximumY = 750;
 const int MinimumY = 200;
 
 ///The standard velocity of the obstacle
 const double ObstacleVelocity = 250;
 
 ///The size of the gap between obstacles
-const double GapSize = 3 ;
+const double GapSize = 2.5;
 
 /** 
 * Constructor
@@ -46,8 +46,21 @@ CGame::CGame()
 	mUmbrella->AddTexture(mTextures["Umbrella4"]);
 	mOverlay = std::make_shared<COverlay>();
 
-	mBackground = std::make_shared<CBackground>(0 + mTextures["Background"]->GetWidth()/2,0 + StandardHeight/2,ObstacleVelocity, mTextures["Background"]);
-	//mFloor = std::make_shared<CFloor>(0 + mTextures["Floor"]->GetWidth() / 2, 0 + StandardHeight, ObstacleVelocity, mTextures["Floor"]);
+	mBackground = std::make_shared<CBackground>(0 + mTextures["Background"]->GetWidth()/2,\
+		0 + StandardHeight/2,ObstacleVelocity, mTextures["Background"]);
+
+	std::shared_ptr<CFloor> floor1 = std::make_shared<CFloor>(0 + mTextures["Floor"]->GetWidth() / 2, \
+		StandardHeight - mTextures["Floor"]->GetHeight() / 2, \
+		ObstacleVelocity, mTextures["Floor"]);
+	std::shared_ptr<CFloor> floor2 = std::make_shared<CFloor>(mTextures["Floor"]->GetWidth() * 1.5 -1, \
+		StandardHeight - mTextures["Floor"]->GetHeight() / 2, \
+		ObstacleVelocity, mTextures["Floor"]);
+
+	floor1->SetOtherFloor(floor2);
+	floor2->SetOtherFloor(floor1);
+
+	mFloors.push_back(floor1);
+	mFloors.push_back(floor2);
 
 
 	mGameOver = false;
@@ -63,9 +76,9 @@ void CGame::CreateTextureMap()
 	mTextures["Umbrella2"] = std::make_shared<CTexture>(L"images/umbrella2.png");
 	mTextures["Umbrella3"] = std::make_shared<CTexture>(L"images/umbrella3.png");
 	mTextures["Umbrella4"] = std::make_shared<CTexture>(L"images/umbrella4.png");
-	mTextures["Obstacle"] = std::make_shared<CTexture>(L"images/obstacle1.png");
+	mTextures["Obstacle"] = std::make_shared<CTexture>(L"images/obstacle2.png");
 	mTextures["Background"] = std::make_shared<CTexture>(L"images/background.png");
-	mTextures["Floor"] = std::make_shared<CTexture>(L"images/tree3.png");
+	mTextures["Floor"] = std::make_shared<CTexture>(L"images/floor3.png");
 
 }
 
@@ -82,14 +95,17 @@ void CGame::OnDraw(Gdiplus::Graphics* graphics, int width, int height)
 	float clientScaleX = width / StandardWidth;
 	graphics->ScaleTransform(clientScaleX, clientScaleY);
 	mBackground->Draw(graphics);
-	//mFloor->Draw(graphics);
+	
 	for (auto obstacle : mObstacles) 
 	{
 		obstacle->Draw(graphics);
 	}
 
 	
-
+	for (auto floor : mFloors) 
+	{
+		floor->Draw(graphics);
+	}
 	mUmbrella->Draw(graphics);
 	mOverlay->DrawScore(graphics);
 	if (mGameOver == true) 
@@ -119,8 +135,12 @@ void CGame::Update(double elapsedTime)
 	}
 	else
 	{
-		mGameOver = TestCollision();
+		
 		mBackground->Update(elapsedTime);
+		for (auto floor : mFloors)
+		{
+			floor->Update(elapsedTime);
+		}
 		//Add an obstacle every x seconds
 		mObstacleTime += elapsedTime;
 		if ((mObstacleTime) > 2)
@@ -146,6 +166,7 @@ void CGame::Update(double elapsedTime)
 			mNextObstacle = mObstacles[1];
 		}
 		mUmbrella->Update(elapsedTime);
+		mGameOver = TestCollision();
 	}
 	
 
@@ -155,7 +176,7 @@ void CGame::Update(double elapsedTime)
 */
 void CGame::jump() 
 {
-	if (mGameOver == true)
+	if (mGameOver == true && mUmbrella->GetYPos() > StandardHeight + 100)
 	{
 		Reset();
 	}
@@ -241,12 +262,21 @@ bool CGame::TestCollision()
 	//If the top obstacle is hit
 	if (umbrellaTop < upObstacleBot && umbrellaRight > upObstacleLeft && umbrellaLeft < upObstacleRight) 
 	{
+		mUmbrella->SetVelocity(-10);
  		return true;
 	}
 	//If the bottom obstacle is hit
 	if (umbrellaBot > downObstacleTop && umbrellaRight > downObstacleLeft && umbrellaLeft < downObstacleRight)
 	{
+		mUmbrella->SetVelocity(-10);
     		return true;
+	}
+	// Since the floors are the same, we can safely just use the first
+	double floorTop = mFloors[0]->GetYPos() - (mFloors[0]->GetHeight() / 2);
+	if (umbrellaBot > floorTop) 
+	{
+		mUmbrella->SetVelocity(-10);
+		return true;
 	}
 	return false;
 }

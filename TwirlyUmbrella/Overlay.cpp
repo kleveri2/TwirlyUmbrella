@@ -33,7 +33,7 @@ void COverlay::DrawScore(Graphics* graphics)
 
     std::wstring highscore = L"High Score: " + std::to_wstring(mHighScore);
 
-    graphics->DrawString(highscore.c_str(), -1, &font, PointF(1242, 65), &red);
+    graphics->DrawString(highscore.c_str(), -1, &font, PointF(1243, 65), &red);
 }
 
 /** Draw game over info

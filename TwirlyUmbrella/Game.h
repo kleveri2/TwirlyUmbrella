@@ -52,14 +52,14 @@ private:
     std::shared_ptr<CUmbrella> mUmbrella; ///The umbrella the user controls
 
     //I use a deque since it will frequently be removing from the front and adding to the end
-    //Whiel also randomly accessing
+    //While also randomly accessing
     std::deque<std::shared_ptr<CObstacle>> mObstacles; ///The obstacles that the umbrella must dodge
 
     std::map<std::string, std::shared_ptr<CTexture>> mTextures;
 
     std::shared_ptr<CBackground> mBackground; ///The background of the game
 
-    std::shared_ptr<CFloor> mFloor; ///The floor of the game
+    std::vector<std::shared_ptr<CFloor>> mFloors; ///The floors of the game
 
     std::shared_ptr<COverlay> mOverlay; ///The overlay that provides info about the game
 
