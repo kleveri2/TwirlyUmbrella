@@ -20,10 +20,10 @@ CObstacle::CObstacle(int XStart, int YStart, double GapSize, double XVelocity, s
 {
 	SetXPos(XStart);
 	SetYPos(YStart);
-	mXVelocity = XVelocity;
+	SetVelocity(XVelocity);
 	mGapSize = GapSize;
 
-	mTexture = texture;
+	SetTexture(texture);
 }
 
 /** Draws the obstacle
@@ -31,11 +31,11 @@ CObstacle::CObstacle(int XStart, int YStart, double GapSize, double XVelocity, s
 */
 void CObstacle::Draw(Graphics* graphics)
 {
-	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, \
-		GetYPos() - mGapSize - mTexture->GetHeight());
+	GetTexture()->DrawTexture(graphics, GetXPos() - GetTexture()->GetWidth()/2, \
+		GetYPos() - mGapSize - GetTexture()->GetHeight());
 
 	//Ypos = ypos + gapsize - height/2 + height/2
-	mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, GetYPos() + mGapSize);
+	GetTexture()->DrawTexture(graphics, GetXPos() - GetTexture()->GetWidth()/2, GetYPos() + mGapSize);
 
 }
 
@@ -44,5 +44,5 @@ void CObstacle::Draw(Graphics* graphics)
 */
 void CObstacle::Update(double elapsedTime)
 {
-	SetXPos(GetXPos() - (mXVelocity * elapsedTime));
+	SetXPos(GetXPos() - (GetVelocity() * elapsedTime));
 }

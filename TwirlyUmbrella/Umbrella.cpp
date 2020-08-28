@@ -61,7 +61,7 @@ void CUmbrella::Update(double elapsedTime)
 	if (mYVelocity < 0)
 	{
 		mTextureNum++;
-		if (mTextureNum >= mTextures.size()) 
+		if (mTextureNum >= static_cast<int>(mTextures.size())) 
 		{
 			mTextureNum = 0;
 		}

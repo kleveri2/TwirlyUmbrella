@@ -11,8 +11,7 @@ CBackground::CBackground(int XStart, int YStart, double XVelocity, std::shared_p
 {
 	SetXPos(XStart);
 	SetYPos(YStart);
-	mXVelocity = XVelocity;
-	mTexture = texture;
+	SetTexture(texture);
 }
 
 /** Draws the background
@@ -24,8 +23,8 @@ void CBackground::Draw(Graphics* graphics)
 	//this makes it not lag horribly
 	//graphics->SetCompositingMode(CompositingModeSourceCopy);
 	graphics->SetInterpolationMode(InterpolationModeNearestNeighbor);
-		mTexture->DrawTexture(graphics, GetXPos() - mTexture->GetWidth()/2, \
-			GetYPos() - mTexture->GetHeight()/2);
+		GetTexture()->DrawTexture(graphics, GetXPos() - GetTexture()->GetWidth()/2, \
+			GetYPos() - GetTexture()->GetHeight()/2);
 	graphics->Restore(state);
 }
 

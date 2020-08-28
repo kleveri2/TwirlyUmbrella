@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include "Texture.h"
 #include <memory>
 
 /**
@@ -20,23 +21,13 @@ public:
     * Pure virtual
     * \param graphics The graphics being drawn upon
     */
-    virtual void Draw(Gdiplus::Graphics* graphics) {}
+    virtual void Draw(Gdiplus::Graphics* graphics) = 0;
 
     /** Update an object
     * Pure virtual
     * \param elapsedTime the time since the last update
     */
     virtual void Update(double elapsedTime) = 0;
-
-    /** Gets the height of an image
-    * Pure virtual
-    */
-    virtual double GetHeight() = 0;
-
-    /** Gets the width of an image
-    * Pure virtual
-    */
-    virtual double GetWidth() = 0;
 
     /**Gets the X Position
     * \return The X Coordinate
@@ -58,11 +49,33 @@ public:
     */
     void SetYPos(double newP) { mYPos = newP; }
 
+    /** Gets the width of the texture
+   * \returns The width in pixels
+   */
+    double GetWidth() { return mTexture->GetWidth(); }
+
+    /** Gets the height of the texture
+    * \returns The height in pixels
+    */
+    double GetHeight() { return mTexture->GetHeight(); }
+
+    /** Sets the texture
+    * \param tex The texture being set
+    */
+    void SetTexture(std::shared_ptr<CTexture> tex) { mTexture = tex; }
+
+    /** Gets the texture
+    * \returns The texture pointer
+    */
+    std::shared_ptr<CTexture> GetTexture() { return mTexture; }
 
 private:
     ///The X coordinate of the object
     double mXPos = 0;
     ///The Y coordinate of the object
     double mYPos = 0;
+
+    ///The texture
+    std::shared_ptr<CTexture> mTexture;
 };
 
